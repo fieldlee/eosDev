@@ -119,7 +119,7 @@ function createaccount (eos,creator, name, ownerPublicKey,activePublicKey,bytes,
 var getAccount = async function(req,res){
     var eos = eosClient({
         chainId: chain[0],
-        keyProvider: keys,
+        // keyProvider: keys,
         httpEndpoint: rpc[0],
         expireInSeconds: 60,
         broadcast: true,
@@ -151,7 +151,7 @@ var getAccount = async function(req,res){
 var getBalance = function(req,res){
     var eos = eosClient({
         chainId: chain[0],
-        keyProvider: keys,
+        // keyProvider: keys,
         httpEndpoint: rpc[0],
         expireInSeconds: 60,
         broadcast: true,
@@ -193,7 +193,7 @@ var getAccountByPrivateKey = function (req,res) {
     
     var eos = eosClient({
         chainId: chain[0],
-        keyProvider: keys,
+        // keyProvider: keys,
         httpEndpoint: rpc[0],
         expireInSeconds: 60,
         broadcast: true,

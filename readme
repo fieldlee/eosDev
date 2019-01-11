@@ -1,0 +1,20 @@
+
+
+1、/eoscreateaccount 创建账号
+
+2、/eosgetaccount  根据用户名查找账号
+
+3、/buyram  购买内存
+
+4、/sellram 销售内存
+
+5、/transfer 转账
+
+6、/getbalance 查询余额
+
+7、/delegate    抵押带宽和cpu
+
+8、/undelegate   解除抵押带宽和cpu
+
+9、/getaccountbykey  导入私钥
+

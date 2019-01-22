@@ -14,6 +14,7 @@ let eosCreateAccount = require('./api/account');
 let ram = require('./api/buyram');
 let delegate = require('./api/delegate');
 let transfer = require('./api/transfer');
+let transaction = require('./api/transaction');
 
 let host = process.env.HOST || "127.0.0.1";
 let port = process.env.PORT || "4000";
@@ -69,4 +70,8 @@ app.post('/getaccountbykey', async function (req, res) {
 
 app.post('/undelegate', async function (req, res) {
     delegate.undelegatebw(req,res);
+});
+
+app.post('/gettransaction', function (req, res) {
+    transaction.transaction(req,res);
 });

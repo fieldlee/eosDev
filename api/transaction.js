@@ -10,7 +10,6 @@ var transactionSchema = mongoose.Schema({
 });
 
 var Schema = mongoose.model('transactions',transactionSchema);
-
   var transaction = function (req, res) {
     var id = "";
 

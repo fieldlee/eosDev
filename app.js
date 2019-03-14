@@ -15,6 +15,7 @@ let ram = require('./api/buyram');
 let delegate = require('./api/delegate');
 let transfer = require('./api/transfer');
 let transaction = require('./api/transaction');
+let call = require('./api/callcontract');
 
 let host = process.env.HOST || "127.0.0.1";
 let port = process.env.PORT || "4000";
@@ -74,4 +75,24 @@ app.post('/undelegate', async function (req, res) {
 
 app.post('/gettransaction', function (req, res) {
     transaction.transaction(req,res);
+});
+//// 调用合约
+app.post('/create', function (req, res) {
+    call.create(req,res);
+});
+
+app.post('/issue', function (req, res) {
+    call.issue(req,res);
+});
+
+app.post('/increase', function (req, res) {
+    call.increase(req,res);
+});
+
+app.post('/con_transfer', function (req, res) {
+    call.transfer(req,res);
+});
+
+app.post('/frozen', function (req, res) {
+    call.frozen(req,res);
 });

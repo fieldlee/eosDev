@@ -1,0 +1,1 @@
+siege -c 1 -t 20S --content-type "application/json" 'http://127.0.0.1:4000/transfer POST {"privateKey":"5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3", "from":"eosio","to":"lidepeng","value": 0.1, "memo":"to lidepeng 1000 eos"}'

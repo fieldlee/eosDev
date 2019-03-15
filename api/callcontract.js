@@ -448,7 +448,7 @@ var supply = function (req,res) {
     }
     
     request({
-        url: "http://localhost:8989/v1/chain/get_currency_stats",
+        url: "http://10.99.22.104:8989/v1/chain/get_currency_stats",
         json,
         method: 'POST'
     }, function (err, response, body) {
@@ -456,6 +456,8 @@ var supply = function (req,res) {
             res.status(500).json({"error":err});
             return;
         } else {
+            logger.info(response);
+            logger.info(body);
             res.status(200).json(body);
             return;
         }

@@ -9,10 +9,10 @@ var chain = require("../chain.json");
 var transfer = function (req,res) {
     var privateKey;
     if (req.body.privateKey){
-		privateKey = req.body.privateKey;
-	}else{
-		res.status(500).json({error:'请输入转账私钥...'});
-		return;
+		  privateKey = req.body.privateKey; 
+	  }else{
+      res.status(500).json({error:'请输入转账私钥...'});
+      return;
     }
 
     var eos = eosClient({

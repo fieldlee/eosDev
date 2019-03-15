@@ -17,6 +17,7 @@ let transfer = require('./api/transfer');
 let transaction = require('./api/transaction');
 let call = require('./api/callcontract');
 let mnemonic = require('./api/mnemonic');
+let deploy = require('./api/deploy');
 
 let host = process.env.HOST || "127.0.0.1";
 let port = process.env.PORT || "4000";
@@ -113,4 +114,7 @@ app.post('/supply', function (req, res) {
 app.post('/mnemonic', function (req, res) {
     mnemonic.mnemonic(req,res);
 });
-
+//////////部署合约
+app.post('/deploy', function (req, res) {
+    deploy.deploy(req,res);
+});

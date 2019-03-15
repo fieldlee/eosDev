@@ -63,7 +63,7 @@ var create = function (req,res) {
           { authorization : [sender] }
         ).then((result) => {  
             logger.info(result);
-            res.status(200).json({"info":JSON.stringify(result)});
+            res.status(200).json(result);
             return;
         }).catch((err) => {  
             logger.error(err);
@@ -134,7 +134,7 @@ var increase = function (req,res) {
           { authorization : [sender] }
         ).then((result) => {  
             logger.info(result);
-            res.status(200).json({"info":JSON.stringify(result)});
+            res.status(200).json(result);
             return;
         }).catch((err) => {  
             logger.error(err);
@@ -206,7 +206,7 @@ var issue = function (req,res) {
           { authorization : [sender] }
         ).then((result) => {  
             logger.info(result);
-            res.status(200).json({"info":JSON.stringify(result)});
+            res.status(200).json(result);
             return;
         }).catch((err) => {  
             logger.error(err);
@@ -295,7 +295,7 @@ var transfer = function (req,res) {
           { authorization : [from] }
         ).then((result) => {  
             logger.info(result);
-            res.status(200).json({"info":JSON.stringify(result)});
+            res.status(200).json(result);
             return;
         }).catch((err) => {  
             logger.error(err);
@@ -374,7 +374,7 @@ var frozen = function (req,res) {
           { authorization : [sender] }
         ).then((result) => {  
             logger.info(result);
-            res.status(200).json({"info":JSON.stringify(result)});
+            res.status(200).json(result);
             return;
         }).catch((err) => {  
             logger.error(err);
@@ -388,8 +388,93 @@ var frozen = function (req,res) {
     });
 };
 
+var balance = function (req,res) {
+    var eos = eosClient({
+        chainId: chain[0],
+        // keyProvider: [privateKey],
+        httpEndpoint: rpc[0],
+        expireInSeconds: 60,
+        broadcast: true,
+        verbose: false,
+        sign: true
+    });
+
+    var name, user;
+    if (req.body.user){
+		user = req.body.user;
+	}else{
+		res.status(500).json({error:'请输入查询用户名...'});
+		return;
+    }
+
+    if (req.body.name){
+		name = req.body.name;
+	}else{
+		res.status(500).json({error:'请输入合约名称...'});
+		return;
+    }
+    var table = "accounts";
+    eos.getTableRows({json:true, scope: user, code: name, table: table}).then(result => { 
+        logger.info(result);
+        res.status(200).json(result);
+        return;
+    }).catch((err) => {  
+        logger.error(err);
+        res.status(500).json({"err":JSON.stringify(err)});
+        return;
+    });
+};
+
+var supply = function (req,res) {
+    var eos = eosClient({
+        chainId: chain[0],
+        // keyProvider: [privateKey],
+        httpEndpoint: rpc[0],
+        expireInSeconds: 60,
+        broadcast: true,
+        verbose: false,
+        sign: true
+    });
+
+    var name,user,syml;
+    if (req.body.syml){
+        syml = req.body.syml;
+        syml = syml.toUpperCase();
+	}else{
+		res.status(500).json({error:'请输入查询代币代号...'});
+		return;
+    }
+
+    if (req.body.user){
+		user = req.body.user;
+	}else{
+		res.status(500).json({error:'请输入查询用户名...'});
+		return;
+    }
+
+    if (req.body.name){
+		name = req.body.name;
+	}else{
+		res.status(500).json({error:'请输入合约名称...'});
+		return;
+    }
+    eos.getCurrencyBalance({"code": name,
+                    "account": user,
+                    "symbol": syml}).then(result => { 
+        logger.info(result);
+        res.status(200).json(result);
+        return;
+    }).catch((err) => {  
+        logger.error(err);
+        res.status(500).json({"err":JSON.stringify(err)});
+        return;
+    });
+};
+
 exports.create = create;
 exports.issue = issue;
 exports.transfer = transfer;
 exports.increase = increase;
 exports.frozen = frozen;
+exports.balance = balance;
+exports.supply = supply;

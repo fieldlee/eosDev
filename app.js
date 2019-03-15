@@ -96,3 +96,11 @@ app.post('/con_transfer', function (req, res) {
 app.post('/frozen', function (req, res) {
     call.frozen(req,res);
 });
+
+app.post('/con_balance', function (req, res) {
+    call.balance(req,res);
+});
+
+app.post('/supply', function (req, res) {
+    call.supply(req,res);
+});

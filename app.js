@@ -16,6 +16,7 @@ let delegate = require('./api/delegate');
 let transfer = require('./api/transfer');
 let transaction = require('./api/transaction');
 let call = require('./api/callcontract');
+let mnemonic = require('./api/mnemonic');
 
 let host = process.env.HOST || "127.0.0.1";
 let port = process.env.PORT || "4000";
@@ -43,6 +44,10 @@ app.post('/eoscreateaccount', async function (req, res) {
 
 app.post('/eosgetaccount', async function (req, res) {
     await eosCreateAccount.getAccount(req, res);
+});
+
+app.post('/eoscreateaccountbykey', async function (req, res) {
+    await eosCreateAccount.createEosAccountByKey(req, res);
 });
 
 app.post('/buyram', async function (req, res) {
@@ -104,3 +109,8 @@ app.post('/con_balance', function (req, res) {
 app.post('/supply', function (req, res) {
     call.supply(req,res);
 });
+
+app.post('/mnemonic', function (req, res) {
+    mnemonic.mnemonic(req,res);
+});
+

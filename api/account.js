@@ -116,6 +116,89 @@ function createaccount (eos,creator, name, ownerPublicKey,activePublicKey,bytes,
       });
   }
 
+
+var createEosAccountByKey = async function(req,res){
+    var creator;
+    var name;
+    var privateKey;
+    if (req.body.privateKey) {
+        privateKey = req.body.privateKey;
+    } else {
+        res.status(500).json({ error: '请输入私钥...' });
+        return;
+    }
+
+    var eos = eosClient({
+        chainId: chain[0],
+        keyProvider: [privateKey],
+        httpEndpoint: rpc[0],
+        expireInSeconds: 60,
+        broadcast: true,
+        verbose: false,
+        sign: true
+    });
+
+    if (req.body.creator){
+		creator = req.body.creator;
+	}else{
+		res.status(500).json({error:'请输入创建账号...'});
+		return;
+    }
+    if (req.body.name){
+		name = req.body.name;
+	}else{
+		res.status(500).json({error:'请输入创建账号名称...'});
+		return;
+	}
+
+    // owner 公钥
+    var ownerPrivateKey,ownerPublicKey,activePrivateKey,activePublicKey;
+
+    if (req.body.ownerPrivateKey){
+        ownerPrivateKey = req.body.ownerPrivateKey;
+        ownerPublicKey = PrivateKey.fromString(ownerPrivateKey).toPublic().toString();
+	}else{
+		res.status(500).json({error:'请输入创建账号ownerprivatekey...'});
+		return;
+	}
+
+    
+
+    logger.info("ownerPrivateKey:",ownerPrivateKey);
+    logger.info("ownerPublicKey:",ownerPublicKey);
+
+
+    if (req.body.activePrivateKey){
+        activePrivateKey = req.body.activePrivateKey;
+        activePublicKey = PrivateKey.fromString(activePrivateKey).toPublic().toString();
+	}else{
+		res.status(500).json({error:'请输入创建账号activePrivateKey...'});
+		return;
+	}
+
+    logger.info("activePrivateKey:",activePrivateKey);
+    logger.info("activePublicKey:",activePublicKey);
+
+    var bytes = 10 * 1024;
+    var stakeNET = 1.00;
+    var stakeCPU = 1.00;
+    
+    try {
+        let result = await createaccount(eos,creator, name, ownerPublicKey,activePublicKey,bytes,stakeNET,stakeCPU);
+        res.status(200).json({
+            "result":result,
+            "ownerPrivateKey":ownerPrivateKey,
+            "ownerPublicKey":ownerPublicKey,
+            "activePrivateKey":activePrivateKey,
+            "activePublicKey":activePublicKey
+        });
+    } catch (error) {
+        res.status(500).json({
+            "error":error
+        });
+    }
+};
+
 var getAccount = async function(req,res){
     var eos = eosClient({
         chainId: chain[0],
@@ -220,3 +303,4 @@ exports.getAccountByPrivateKey = getAccountByPrivateKey;
 exports.getBalance = getBalance;
 exports.getAccount = getAccount;
 exports.createEosAccount = createEosAccount;
+exports.createEosAccountByKey = createEosAccountByKey

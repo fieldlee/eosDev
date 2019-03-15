@@ -456,7 +456,6 @@ var supply = function (req,res) {
             res.status(500).json({"error":err});
             return;
         } else {
-            logger.info(response);
             logger.info(body);
             res.status(200).json(body);
             return;

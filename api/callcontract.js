@@ -5,6 +5,7 @@ let logger = log4js.getLogger('api-transfer');
 let eosClient = require('eosjs');
 var rpc = require("../rpc.json");
 var chain = require("../chain.json");
+var request = require('request');
 
 var create = function (req,res) {
     var privateKey;
@@ -426,17 +427,7 @@ var balance = function (req,res) {
 };
 
 var supply = function (req,res) {
-    var eos = eosClient({
-        chainId: chain[0],
-        // keyProvider: [privateKey],
-        httpEndpoint: rpc[0],
-        expireInSeconds: 60,
-        broadcast: true,
-        verbose: false,
-        sign: true
-    });
-
-    var name,user,syml;
+    var name,syml;
     if (req.body.syml){
         syml = req.body.syml;
         syml = syml.toUpperCase();
@@ -444,30 +435,30 @@ var supply = function (req,res) {
 		res.status(500).json({error:'请输入查询代币代号...'});
 		return;
     }
-
-    if (req.body.user){
-		user = req.body.user;
-	}else{
-		res.status(500).json({error:'请输入查询用户名...'});
-		return;
-    }
-
     if (req.body.name){
 		name = req.body.name;
 	}else{
 		res.status(500).json({error:'请输入合约名称...'});
 		return;
     }
-    eos.getCurrencyBalance({"code": name,
-                    "account": user,
-                    "symbol": syml}).then(result => { 
-        logger.info(result);
-        res.status(200).json(result);
-        return;
-    }).catch((err) => {  
-        logger.error(err);
-        res.status(500).json({"err":JSON.stringify(err)});
-        return;
+
+    let json = {
+            "code":name,
+            "symbol":syml
+    }
+    
+    request({
+        url: "http://localhost:8989/v1/chain/get_currency_stats",
+        json,
+        method: 'POST'
+    }, function (err, response, body) {
+        if (err) {
+            res.status(500).json({"error":err});
+            return;
+        } else {
+            res.status(200).json(body);
+            return;
+        }
     });
 };
 

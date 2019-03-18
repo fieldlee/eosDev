@@ -27,28 +27,28 @@ var transfer = function (req,res) {
 
     var from , to ,value , memo;
     if (req.body.from){
-		from = req.body.from;
-	}else{
-		res.status(500).json({error:'请输入转账用户名...'});
-		return;
+		  from = req.body.from;
+	  }else{
+      res.status(500).json({error:'请输入转账用户名...'});
+      return;
     }
     if (req.body.to){
 		to = req.body.to;
 	}else{
-		res.status(500).json({error:'请输入转账用户名...'});
-		return;
+      res.status(500).json({error:'请输入转账用户名...'});
+      return;
     }
     if (req.body.value){
-		value = req.body.value;
-	}else{
-		res.status(500).json({error:'请输入转账数值...'});
-		return;
+		  value = req.body.value;
+	  }else{
+		  res.status(500).json({error:'请输入转账数值...'});
+		  return;
     }
 
     if (req.body.memo){
-		memo = req.body.memo;
-	}else{
-		memo = "pay token";
+		  memo = req.body.memo;
+	  }else{
+		  memo = "pay token";
     }
 
     value = value.toFixed(4) + " SYS";

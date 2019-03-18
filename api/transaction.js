@@ -5,7 +5,7 @@ let fs = require('fs');
 let mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost:27017/eosmain', {useNewUrlParser: true});
 let log4js = require('log4js');
-let logger = log4js.getLogger('api-account');
+let logger = log4js.getLogger('api-transaction');
 let eosClient = require('eosjs');
 var keys = require("../keys.json");
 var rpc = require("../rpc.json");

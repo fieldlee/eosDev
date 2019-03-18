@@ -1,7 +1,7 @@
 'use strict'
 
 let log4js = require('log4js');
-let logger = log4js.getLogger('api-transfer');
+let logger = log4js.getLogger('api-buyram');
 let eosClient = require('eosjs');
 var rpc = require("../rpc.json");
 var chain = require("../chain.json");

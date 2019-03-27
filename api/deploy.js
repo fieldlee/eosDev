@@ -57,4 +57,4 @@ var deploy = function (eos, logger) {
     }); // @returns {Promise}
 };
 
-modules.deploy = deploy;
+exports.deploy = deploy;

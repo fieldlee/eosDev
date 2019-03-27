@@ -92,18 +92,18 @@ function createaccount (eos,creator, name, ownerPublicKey,activePublicKey,bytes,
                 owner: ownerPublicKey,
                 active: activePublicKey
             });
-            tr.buyrambytes ({
-                payer: creator,
-                receiver: name,
-                bytes: bytes
-            });
-            tr.delegatebw ({
-                from: creator,
-                receiver: name,
-                stake_net_quantity: stakeNET.toFixed(4) + ' SYS',
-                stake_cpu_quantity: stakeCPU.toFixed(4) + ' SYS',
-                transfer: 0
-            });
+            // tr.buyrambytes ({
+            //     payer: creator,
+            //     receiver: name,
+            //     bytes: bytes
+            // });
+            // tr.delegatebw ({
+            //     from: creator,
+            //     receiver: name,
+            //     stake_net_quantity: stakeNET.toFixed(4) + ' SYS',
+            //     stake_cpu_quantity: stakeCPU.toFixed(4) + ' SYS',
+            //     transfer: 0
+            // });
           })
           .then (data => {
             logger.info("data:",data);

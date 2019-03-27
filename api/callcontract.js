@@ -26,7 +26,13 @@ var create = function (req,res) {
         sign: true
     });
 
-    var  sender , value , syml, memo;
+    var name, sender , value , syml, memo;
+    if (req.body.name){
+		name = req.body.name;
+	}else{
+		res.status(500).json({error:'请输入合约名称...'});
+		return;
+    }
     if (req.body.sender){
 		sender = req.body.sender;
 	}else{
@@ -55,7 +61,7 @@ var create = function (req,res) {
     }
     value = value.toFixed(4) + " "+syml.toUpperCase();
     logger.info(value);
-    eos.contract(sender).then((contract) => {
+    eos.contract(name).then((contract) => {
         logger.info("=======contract=====");
         // 合约 调用方法
         contract.create(
@@ -97,7 +103,13 @@ var increase = function (req,res) {
         sign: true
     });
 
-    var  sender , value , syml, memo;
+    var name, sender , value , syml, memo;
+    if (req.body.name){
+		name = req.body.name;
+	}else{
+		res.status(500).json({error:'请输入合约名称...'});
+		return;
+    }
     if (req.body.sender){
 		sender = req.body.sender;
 	}else{
@@ -126,7 +138,7 @@ var increase = function (req,res) {
     }
     value = value.toFixed(4) + " "+syml.toUpperCase();
     logger.info(value);
-    eos.contract(sender).then((contract) => {
+    eos.contract(name).then((contract) => {
         logger.info("=======contract increase=====");
         // 合约 调用方法
         contract.increase(
@@ -168,7 +180,13 @@ var issue = function (req,res) {
         sign: true
     });
 
-    var  sender , value , syml, memo;
+    var name, sender , value , syml, memo;
+    if (req.body.name){
+		name = req.body.name;
+	}else{
+		res.status(500).json({error:'请输入合约名称...'});
+		return;
+    }
     if (req.body.sender){
 		sender = req.body.sender;
 	}else{
@@ -197,7 +215,7 @@ var issue = function (req,res) {
     }
     value = value.toFixed(4) + " "+syml.toUpperCase();
     logger.info(value);
-    eos.contract(sender).then((contract) => {
+    eos.contract(name).then((contract) => {
         logger.info("=======contract issue=====");
         // 合约 调用方法
         contract.issue(
@@ -329,11 +347,17 @@ var frozen = function (req,res) {
         sign: true
     });
 
-    var name, sender, value , syml, memo;
+    var name, frozen ,sender, value , syml, memo;
     if (req.body.sender){
 		sender = req.body.sender;
 	}else{
 		res.status(500).json({error:'请输入初始化用户名...'});
+		return;
+    }
+    if (req.body.frozen){
+		frozen = req.body.frozen;
+	}else{
+		res.status(500).json({error:'请输入冻结用户名...'});
 		return;
     }
 
@@ -365,11 +389,11 @@ var frozen = function (req,res) {
     }
     value = value.toFixed(4) + " "+syml.toUpperCase();
     logger.info(value);
-    eos.contract(sender).then((contract) => {
+    eos.contract(name).then((contract) => {
         logger.info("=======contract issue=====");
         // 合约 调用方法
         contract.frozen(
-            name,
+            frozen,
             value,
             memo,
           { authorization : [sender] }
